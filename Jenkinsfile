@@ -28,14 +28,9 @@ pipeline {
                 }
             }
         }
-
-    
-    stage('Deploy App') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "hellowhale1.yml", kubeconfigId: "e48c0eb4-b262-4ba5-9e44-3a106b2a03c2")
-        }
-      }
+    stage('Apply Kubernetes files') {
+    withKubeConfig([credentialsId: 'e48c0eb4-b262-4ba5-9e44-3a106b2a03c2') {
+      sh 'kubectl apply -f hellowhale1.yml'
     }
 
   }
